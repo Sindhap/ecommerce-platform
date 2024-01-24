@@ -47,7 +47,7 @@ To run tests, run the following command
 
 mvn test
 
-Coverage Report is available at https://github.com/Sindhap/ecommerce-platform/tree/feature_ecommerce/src/main/resources/coverage-report/index.html
+Coverage Report is available at https://github.com/Sindhap/ecommerce-platform/tree/feature_ecommerce/src/main/resources/coverage-report
 
 ## Code Quality and Scanning
 
