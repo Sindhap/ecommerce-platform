@@ -1,6 +1,16 @@
 # Compiled class file
 *.class
 
+# Eclipse
+.classpath
+.project
+.factorypath
+.help.md
+
+# Maven
+.mvn/
+target/
+
 # Log file
 *.log
 
