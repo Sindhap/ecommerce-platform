@@ -25,8 +25,8 @@ Ensure you have the following prerequisites before getting started:
 
 To run this project, you will need to add the following environment variables to your .env file
 
-- DB_USERNAME:user
-- DB_PASSWORD:testH2
+- **`DB_USERNAME`**: The username for connecting to the H2 database.
+- **`DB_PASSWORD`**: The password for connecting to the H2 database.
 
 ## Run Locally
 
