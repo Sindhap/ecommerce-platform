@@ -46,7 +46,7 @@ public class ProductService implements ProductAPIDelegate {
 
 <span class="fc" id="L47">			log.error(&quot;Exception Occured while adding new Product: {}&quot;, e.getLocalizedMessage());</span>
 <span class="fc" id="L48">			throw new ProductSavingException(&quot;Exception Occured while adding new Product: &quot; + e.getLocalizedMessage());</span>
-		}
+<span class="fc" id="L49">		}</span>
 
 <span class="fc" id="L51">		log.info(&quot;Product added Successfully : {}&quot;, printAsJson(productDetails));</span>
 <span class="fc" id="L52">		return ResponseEntity.ok(productDetails);</span>
@@ -77,7 +77,7 @@ public class ProductService implements ProductAPIDelegate {
 <span class="fc bfc" id="L77" title="All 2 branches covered.">			if (product.getQuantityAvailable() != null) {</span>
 <span class="fc" id="L78">				productDetails.setQuantityAvailable(product.getQuantityAvailable());</span>
 			}
-<span class="fc" id="L80">		}</span>
+		}
 
 <span class="nc" id="L82">		catch (BadRequestException e) {</span>
 
@@ -89,7 +89,7 @@ public class ProductService implements ProductAPIDelegate {
 
 <span class="nc" id="L90">			log.error(&quot;Exception Occured while updating Product: {}&quot;, e.getLocalizedMessage());</span>
 <span class="nc" id="L91">			throw new ProductSavingException(&quot;Exception Occured while updating Product: &quot; + e.getLocalizedMessage());</span>
-		}
+<span class="fc" id="L92">		}</span>
 
 <span class="fc" id="L94">		log.info(&quot;Product updated Successfully : {}&quot;, printAsJson(productDetails));</span>
 <span class="fc" id="L95">		return ResponseEntity.ok(productRepository.save(productDetails));</span>
@@ -134,11 +134,11 @@ public class ProductService implements ProductAPIDelegate {
 <span class="fc" id="L134">			productList = productRepository.findAll();</span>
 <span class="fc" id="L135">			log.info(&quot;Retrieved all Products : {}&quot;, printAsJson(productList));</span>
 
-<span class="pc" id="L137">		} catch (Exception e) {</span>
+<span class="nc" id="L137">		} catch (Exception e) {</span>
 
 <span class="nc" id="L139">			log.error(&quot;Exception Occured while fetching all Products: {}&quot;, e.getLocalizedMessage());</span>
 <span class="nc" id="L140">			throw new InternalServerErrorException(&quot;Exception Occured while fetching all Products: &quot; + e.getMessage());</span>
-		}
+<span class="fc" id="L141">		}</span>
 <span class="fc" id="L142">		return ResponseEntity.ok(productList);</span>
 	}
 
@@ -155,7 +155,7 @@ public class ProductService implements ProductAPIDelegate {
 <span class="fc" id="L155">				productRepository.deleteById(id);</span>
 <span class="fc" id="L156">				log.info(&quot;Successfully Deleted Product with ID : {}&quot;, id);</span>
 
-<span class="fc" id="L158">			} else {</span>
+			} else {
 
 <span class="fc" id="L160">				log.info(Constants.PRODUCT_NOT_EXIST, id);</span>
 <span class="fc" id="L161">				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Constants.PRODUCT_NOT_FOUND + id);</span>
@@ -169,7 +169,7 @@ public class ProductService implements ProductAPIDelegate {
 
 <span class="nc" id="L170">			log.error(&quot;Exception Occured while deleting Product: {}&quot;, e.getLocalizedMessage());</span>
 <span class="nc" id="L171">			throw new ProductDeletionException(&quot;Exception Occured while deleting Product: &quot; + e.getMessage());</span>
-		}
+<span class="fc" id="L172">		}</span>
 <span class="fc" id="L173">		return ResponseEntity.ok(&quot;Successfully Deleted Product with ID : &quot; + id);</span>
 	}
 
@@ -203,7 +203,7 @@ public class ProductService implements ProductAPIDelegate {
 <span class="nc" id="L203">			log.error(&quot;Exception Occured while applying discount to Product: {}&quot;, e.getLocalizedMessage());</span>
 <span class="nc" id="L204">			throw new InternalServerErrorException(</span>
 <span class="nc" id="L205">					&quot;Exception Occured while applying discount to Product: &quot; + e.getMessage());</span>
-		}
+<span class="fc" id="L206">		}</span>
 <span class="fc" id="L207">		return ResponseEntity.ok(productRepository.save(product));</span>
 	}
 
@@ -237,7 +237,7 @@ public class ProductService implements ProductAPIDelegate {
 <span class="nc" id="L237">			log.error(&quot;Exception Occured while applying tax to Product:  {}&quot;, e.getLocalizedMessage());</span>
 <span class="nc" id="L238">			throw new InternalServerErrorException(</span>
 <span class="nc" id="L239">					&quot;Exception Occured while applying tax to Product: &quot; + e.getMessage());</span>
-		}
+<span class="fc" id="L240">		}</span>
 <span class="fc" id="L241">		return ResponseEntity.ok(productRepository.save(product));</span>
 
 	}
