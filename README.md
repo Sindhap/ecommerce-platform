@@ -49,6 +49,13 @@ mvn test
 
 Coverage Report is available at https://github.com/Sindhap/ecommerce-platform/tree/feature_ecommerce/src/main/resources/coverage-report/index.html
 
+## Code Quality and Scanning
+
+### Code Scanning Status
+
+The codebase has been scanned using CodeQL, and no code scanning alerts were found.
+
+Also, Used [SonarLint](https://www.sonarlint.org/) in Eclipse IDE for code smell detection.
 
 ## API Reference
 
