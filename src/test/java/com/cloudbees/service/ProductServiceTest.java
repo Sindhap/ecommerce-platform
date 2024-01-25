@@ -71,7 +71,7 @@ class ProductServiceTest {
 		product.setPrice(null);
 		assertThrows(BadRequestException.class, () -> productService.createProduct(product));
 
-		assertThrows(ProductSavingException.class, () -> productService.createProduct(null));
+		assertThrows(BadRequestException.class, () -> productService.createProduct(null));
 
 	}
 

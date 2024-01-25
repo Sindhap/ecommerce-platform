@@ -181,6 +181,9 @@ public class ProductService implements ProductAPIDelegate {
 
 	private void validateProductRequest(Product product) {
 
+		if (null == product) {
+			throw new BadRequestException("Request body cannot be null");
+		}
 		if (null == product.getQuantityAvailable() || product.getQuantityAvailable() < 0) {
 			throw new BadRequestException("QuantityAvailable() cannot be null and the value should be minimum 0");
 		}
