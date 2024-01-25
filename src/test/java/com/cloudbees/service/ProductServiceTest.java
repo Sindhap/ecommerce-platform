@@ -234,20 +234,20 @@ class ProductServiceTest {
 		request.setModificationType("account");
 		request.setModificationValue(20.0);
 		when(productRepository.findById(productId)).thenReturn(Optional.of(product));
-		responseEntity = productService.applyModification(productId, request);
-		assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+		assertThrows(BadRequestException.class, () -> productService.applyModification(productId, request));
 		
 		when(productRepository.findById(productId)).thenReturn(Optional.empty());
 		responseEntity = productService.applyModification(productId, request);
 		assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
 		
 		request.setModificationType(null);
-		request.setModificationValue(null);
-		responseEntity = productService.applyModification(productId, request);
-		assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
-
-
+		request.setModificationValue(12.0);
+		assertThrows(BadRequestException.class, () -> productService.applyModification(productId, request));
 		
+		request.setModificationType("discount");
+		request.setModificationValue(null);
+		assertThrows(BadRequestException.class, () -> productService.applyModification(productId, request));
+
 
 	}
 

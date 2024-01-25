@@ -199,7 +199,7 @@ public class ProductService implements ProductAPIDelegate {
 	public ResponseEntity<ProductResponse> applyModification(Long id, ProductModificationRequest request) {
 		ProductResponse response = new ProductResponse();
 		try {
-			if (request.getModificationType() == null || request.getModificationValue() == null) {
+			if (StringUtils.isBlank(request.getModificationType()) || request.getModificationValue() == null) {
 				throw new BadRequestException("Modification type and value cannot be null");
 			}
 
@@ -224,10 +224,10 @@ public class ProductService implements ProductAPIDelegate {
 				return ResponseEntity.ok(response);
 			} else {
 				log.info(Constants.PRODUCT_NOT_EXIST, id);
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 			}
 		} catch (BadRequestException e) {
-			return ResponseEntity.badRequest().body(response);
+			throw new BadRequestException(e.getMessage());
 		} catch (Exception e) {
 			log.error("Exception Occurred while applying modification to Product: {}", e.getLocalizedMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
