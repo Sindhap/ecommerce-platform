@@ -12,7 +12,7 @@ info:
 servers:
   - url: 'http://localhost:3000'
 paths:
-  '/api/product/{product-id}':
+  '/api/products/{product-id}':
     parameters:
       - schema:
           type: integer
@@ -274,7 +274,7 @@ paths:
       parameters: []
       description: Retrive all products
     parameters: []
-  '/api/product/{product-id}/applyModification':
+  '/api/products/{product-id}/applyModification':
     parameters:
       - schema:
           type: integer
