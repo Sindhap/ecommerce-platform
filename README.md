@@ -72,7 +72,7 @@ Retrieve a list of all products.
 Retrieve the information of the product with the matching product ID.
 
 ```http
-  GET /api/product/{product-id}
+  GET /api/products/{product-id}
 ```
 
 | Parameter | Type     | Description                       |
@@ -100,7 +100,7 @@ Create a new product.
 Update the information of an existing product.
 
 ```http
-  PATCH /api/product/{product-id}
+  PATCH /api/products/{product-id}
 ```
 
 | Parameter | Type     | Description                       |
@@ -112,7 +112,7 @@ Update the information of an existing product.
 Delete an existing product.
 
 ```http
-  DELETE /api/product/{product-id}
+  DELETE /api/products/{product-id}
 ```
 
 | Parameter | Type     | Description                       |
@@ -124,7 +124,7 @@ Delete an existing product.
 Apply discount to a product to promote sales or tax for regulatory compliance
 
 ```http
-  POST /api/product/{product-id}/applyModification
+  POST /api/products/{product-id}/applyModification
 ```
 
 | Parameter | Type     | Description                       |
