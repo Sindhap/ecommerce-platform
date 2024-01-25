@@ -13,9 +13,9 @@ name: "CodeQL"
 
 on:
   push:
-    branches: [ "feature_ecommerce" ]
+    branches: [ "develop" ]
   pull_request:
-    branches: [ "feature_ecommerce" ]
+    branches: [ "develop" ]
   schedule:
     - cron: '17 7 * * 3'
 
