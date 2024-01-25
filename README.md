@@ -64,7 +64,7 @@ Also, Used [SonarLint](https://www.sonarlint.org/) in Eclipse IDE for code smell
 Retrieve a list of all products.
 
 ```http
-  GET /api/getAllProducts
+  GET /api/products
 ```
 
 #### Get Product by ProductID
@@ -72,19 +72,19 @@ Retrieve a list of all products.
 Retrieve the information of the product with the matching product ID.
 
 ```http
-  GET /api/getProduct/{id}
+  GET /api/product/{product-id}
 ```
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
-| `id`      | `Long` | **Required**. Id of product to fetch |
+| `product-id`      | `Long` | **Required**. Id of product to fetch |
 
 #### Add a New Product
 
 Create a new product.
 
 ```http
-  POST /api/addProduct
+  POST /api/product
 ```
 
 | Fields | Type     | Description                       |
@@ -100,48 +100,37 @@ Create a new product.
 Update the information of an existing product.
 
 ```http
-  PATCH /api/updateProduct/{id}
+  PATCH /api/product/{product-id}
 ```
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
-| `id`      | `Long` | **Required**. Id of product to fetch |
+| `product-id`      | `Long` | **Required**. Id of product to fetch |
 
 #### Delete Product
 
 Delete an existing product.
 
 ```http
-  DELETE /api/deleteProduct/{id}
+  DELETE /api/product/{product-id}
 ```
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
-| `id`      | `Long` | **Required**. Id of product to delete |
+| `product-id`      | `Long` | **Required**. Id of product to delete |
 
-#### Apply Discount
+#### Apply Discount or tax
 
-Apply discount to a product to promote sales
+Apply discount to a product to promote sales or tax for regulatory compliance
 
 ```http
-  PATCH /api/applyDiscount/{id}
+  POST /api/product/{product-id}/applyModification
 ```
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
-| `id`      | `Long` | **Required**. Id of product to update |
-| `DiscountPercentage`      | `Double` | **Required**. The discount percentage to apply |
+| `product-id`      | `Long` | **Required**. Id of product to update |
+| `modificationType`      | `string` |  Either Discount or tax |
+| `modificationValue`      | `Double` |  value |
 
 
-#### Apply Tax
-
-Apply tax for regulatory compliance.
-
-```http
-  PATCH /api/applyTax/{id}
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `Long` | **Required**. Id of product to update |
-| `TaxRate `      | `Double` | **Required**. The taxRate to apply |

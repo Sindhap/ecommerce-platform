@@ -121,6 +121,7 @@
 							<exclude>com/cloudbees/logging/**</exclude>
 							<exclude>com/cloudbees/controller/**</exclude>
 							<exclude>com/cloudbees/util/**</exclude>
+							<exclude>com/cloudbees/exception/**</exclude>
 						</excludes>
 						</configuration>
 					</execution>

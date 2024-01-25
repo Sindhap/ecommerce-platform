@@ -13,7 +13,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * GenericResponse
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-24T00:08:19.694326500+05:30[Asia/Calcutta]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-25T09:53:45.759072900+05:30[Asia/Calcutta]")
 public class GenericResponse {
 
   private String code;

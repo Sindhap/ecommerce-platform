@@ -5,6 +5,7 @@
  */
 package com.cloudbees.controller;
 
+
 import java.util.List;
 import java.util.Optional;
 
@@ -15,12 +16,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.cloudbees.model.GenericResponse;
 import com.cloudbees.model.Product;
+import com.cloudbees.model.ProductModificationRequest;
+import com.cloudbees.model.ProductResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -31,7 +33,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-24T00:08:19.694326500+05:30[Asia/Calcutta]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-25T10:40:44.336476700+05:30[Asia/Calcutta]")
 @Validated
 @Tag(name = "api", description = "the api API")
 public interface ProductAPI {
@@ -41,111 +43,7 @@ public interface ProductAPI {
     }
 
     /**
-     * PATCH /api/applyDiscount/{id} : Apply Discount
-     * Apply Discount to promote sales
-     *
-     * @param id Product Id (required)
-     * @param discountPercentage  (optional)
-     * @return OK (status code 200)
-     *         or Bad Request (status code 400)
-     *         or Unauthorized (status code 401)
-     *         or Not Found (status code 404)
-     *         or Method Not Allowed (status code 405)
-     *         or Internal Server Error (status code 500)
-     */
-    @Operation(
-        operationId = "applyDiscount",
-        summary = "Apply Discount",
-        description = "Apply Discount to promote sales",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "OK", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = Product.class))
-            }),
-            @ApiResponse(responseCode = "400", description = "Bad Request", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = GenericResponse.class))
-            }),
-            @ApiResponse(responseCode = "401", description = "Unauthorized", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = GenericResponse.class))
-            }),
-            @ApiResponse(responseCode = "404", description = "Not Found", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = GenericResponse.class))
-            }),
-            @ApiResponse(responseCode = "405", description = "Method Not Allowed", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = GenericResponse.class))
-            }),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = GenericResponse.class))
-            })
-        }
-    )
-    @RequestMapping(
-        method = RequestMethod.PATCH,
-        value = "/api/applyDiscount/{id}",
-        produces = { "application/json" }
-    )
-    
-    default ResponseEntity<Product> applyDiscount(
-        @Parameter(name = "id", description = "Product Id", required = true, in = ParameterIn.PATH) @PathVariable("id") Long id,
-        @Parameter(name = "DiscountPercentage", description = "", in = ParameterIn.HEADER) @RequestHeader(value = "DiscountPercentage", required = false) Double discountPercentage
-    ) {
-        return getDelegate().applyDiscount(id, discountPercentage);
-    }
-
-
-    /**
-     * PATCH /api/applyTax/{id} : Apply Tax
-     * Apply tax for regulatory compliance
-     *
-     * @param id Product Id (required)
-     * @param taxRate  (optional)
-     * @return OK (status code 200)
-     *         or Bad Request (status code 400)
-     *         or Unauthorized (status code 401)
-     *         or Not Found (status code 404)
-     *         or Method Not Allowed (status code 405)
-     *         or Internal Server Error (status code 500)
-     */
-    @Operation(
-        operationId = "applyTax",
-        summary = "Apply Tax",
-        description = "Apply tax for regulatory compliance",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "OK", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = Product.class))
-            }),
-            @ApiResponse(responseCode = "400", description = "Bad Request", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = GenericResponse.class))
-            }),
-            @ApiResponse(responseCode = "401", description = "Unauthorized", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = GenericResponse.class))
-            }),
-            @ApiResponse(responseCode = "404", description = "Not Found", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = GenericResponse.class))
-            }),
-            @ApiResponse(responseCode = "405", description = "Method Not Allowed", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = GenericResponse.class))
-            }),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = GenericResponse.class))
-            })
-        }
-    )
-    @RequestMapping(
-        method = RequestMethod.PATCH,
-        value = "/api/applyTax/{id}",
-        produces = { "application/json" }
-    )
-    
-    default ResponseEntity<Product> applyTax(
-        @Parameter(name = "id", description = "Product Id", required = true, in = ParameterIn.PATH) @PathVariable("id") Long id,
-        @Parameter(name = "TaxRate", description = "", in = ParameterIn.HEADER) @RequestHeader(value = "TaxRate", required = false) Double taxRate
-    ) {
-        return getDelegate().applyTax(id, taxRate);
-    }
-
-
-    /**
-     * POST /api/addProduct : Add a new Product
+     * POST /api/product : Add a new Product
      * creates a new Product
      *
      * @param product  (optional)
@@ -183,7 +81,7 @@ public interface ProductAPI {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/api/addProduct",
+        value = "/api/product",
         produces = { "application/json" },
         consumes = { "application/json" }
     )
@@ -196,21 +94,20 @@ public interface ProductAPI {
 
 
     /**
-     * DELETE /api/deleteProduct/{id} : Delete a Product
+     * DELETE /api/product/{product-id} : Delete a Product
      * To delete an existing product.  
      *
-     * @param id Product Id (required)
+     * @param productId Product ID (required)
      * @return Product Deleted Successfully (status code 200)
      *         or Bad Request (status code 400)
      *         or Unauthorized (status code 401)
-     *         or Not Found (status code 404)
-     *         or Method Not Allowed (status code 405)
      *         or Internal Server Error (status code 500)
      */
     @Operation(
         operationId = "deleteProduct",
         summary = "Delete a Product",
         description = "To delete an existing product.  ",
+        tags = {  },
         responses = {
             @ApiResponse(responseCode = "200", description = "Product Deleted Successfully", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))
@@ -221,12 +118,6 @@ public interface ProductAPI {
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = GenericResponse.class))
             }),
-            @ApiResponse(responseCode = "404", description = "Not Found", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = GenericResponse.class))
-            }),
-            @ApiResponse(responseCode = "405", description = "Method Not Allowed", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = GenericResponse.class))
-            }),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = GenericResponse.class))
             })
@@ -234,19 +125,19 @@ public interface ProductAPI {
     )
     @RequestMapping(
         method = RequestMethod.DELETE,
-        value = "/api/deleteProduct/{id}",
+        value = "/api/product/{product-id}",
         produces = { "application/json" }
     )
     
     default ResponseEntity<String> deleteProduct(
-        @Parameter(name = "id", description = "Product Id", required = true, in = ParameterIn.PATH) @PathVariable("id") Long id
+        @Parameter(name = "product-id", description = "Product ID", required = true, in = ParameterIn.PATH) @PathVariable("product-id") Long productId
     ) {
-        return getDelegate().deleteProduct(id);
+        return getDelegate().deleteProduct(productId);
     }
 
 
     /**
-     * GET /api/getAllProducts : Get all products
+     * GET /api/products : Get all products
      * Retrive all products
      *
      * @return OK (status code 200)
@@ -284,7 +175,7 @@ public interface ProductAPI {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/api/getAllProducts",
+        value = "/api/products",
         produces = { "application/json" }
     )
     
@@ -296,10 +187,10 @@ public interface ProductAPI {
 
 
     /**
-     * GET /api/getProduct/{id} : Get Product Info by Product ID
+     * GET /api/product/{product-id} : Get Product Info by Product ID
      * Retrieve the information of the Product with the matching Product ID.
      *
-     * @param id Product Id (required)
+     * @param productId Product ID (required)
      * @return Success (status code 200)
      *         or Bad Request (status code 400)
      *         or Unauthorized (status code 401)
@@ -334,22 +225,76 @@ public interface ProductAPI {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/api/getProduct/{id}",
+        value = "/api/product/{product-id}",
         produces = { "application/json" }
     )
     
     default ResponseEntity<Optional<Product>> getProductById(
-        @Parameter(name = "id", description = "Product Id", required = true, in = ParameterIn.PATH) @PathVariable("id") Long id
+        @Parameter(name = "product-id", description = "Product ID", required = true, in = ParameterIn.PATH) @PathVariable("product-id") Long productId
     ) {
-        return getDelegate().getProductById(id);
+        return getDelegate().getProductById(productId);
     }
 
 
     /**
-     * PATCH /api/updateProduct/{id} : Update Product Information
+     * POST /api/product/{product-id}/applyModification : Apply Discount or deduct tax
+     * Appy Discount or deduct tax
+     *
+     * @param productId Product ID (required)
+     * @param postApiProductProductIdApplyModificationRequest  (optional)
+     * @return OK (status code 200)
+     *         or Bad Request (status code 400)
+     *         or Unauthorized (status code 401)
+     *         or Method Not Allowed (status code 405)
+     *         or Internal Server Error (status code 500)
+     */
+    @Operation(
+        operationId = "postApiProductProductIdApplyModification",
+        summary = "Apply Discount or deduct tax",
+        description = "Appy Discount or deduct tax",
+        responses = {
+            @ApiResponse(responseCode = "200", description = "OK", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ProductResponse.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = ProductResponse.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = GenericResponse.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = GenericResponse.class))
+            }),
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = GenericResponse.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = GenericResponse.class))
+            }),
+            @ApiResponse(responseCode = "405", description = "Method Not Allowed", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = GenericResponse.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = GenericResponse.class))
+            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = GenericResponse.class)),
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = GenericResponse.class))
+            })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.POST,
+        value = "/api/product/{product-id}/applyModification",
+        produces = { "application/json", "application/xml" },
+        consumes = { "application/json" }
+    )
+    
+    default ResponseEntity<ProductResponse> postApiProductProductIdApplyModification(
+        @Parameter(name = "product-id", description = "Product ID", required = true, in = ParameterIn.PATH) @PathVariable("product-id") Long productId,
+        @Parameter(name = "PostApiProductProductIdApplyModificationRequest", description = "") @Valid @RequestBody(required = false) ProductModificationRequest postApiProductProductIdApplyModificationRequest
+    ) {
+        return getDelegate().applyModification(productId, postApiProductProductIdApplyModificationRequest);
+    }
+
+
+    /**
+     * PATCH /api/product/{product-id} : Update Product Information
      * Update the information of an existing product.
      *
-     * @param id Product Id (required)
+     * @param productId Product ID (required)
      * @param product  (optional)
      * @return Product information Updated (status code 200)
      *         or Bad Request (status code 400)
@@ -382,16 +327,16 @@ public interface ProductAPI {
     )
     @RequestMapping(
         method = RequestMethod.PATCH,
-        value = "/api/updateProduct/{id}",
+        value = "/api/product/{product-id}",
         produces = { "application/json" },
         consumes = { "application/json" }
     )
     
     default ResponseEntity<Product> updateProduct(
-        @Parameter(name = "id", description = "Product Id", required = true, in = ParameterIn.PATH) @PathVariable("id") Long id,
+        @Parameter(name = "product-id", description = "Product ID", required = true, in = ParameterIn.PATH) @PathVariable("product-id") Long productId,
         @Parameter(name = "Product", description = "") @Valid @RequestBody(required = false) Product product
     ) {
-        return getDelegate().updateProduct(id, product);
+        return getDelegate().updateProduct(productId, product);
     }
 
 }

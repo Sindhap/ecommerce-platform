@@ -1,6 +1,6 @@
 openapi: 3.1.0
 x-stoplight:
-  id: ejsqv3lxdpyd5
+  id: j2h43tbjbq9p2
 info:
   title: ProductAPI
   version: '1.0'
@@ -12,15 +12,15 @@ info:
 servers:
   - url: 'http://localhost:3000'
 paths:
-  '/api/getProduct/{id}':
+  '/api/product/{product-id}':
     parameters:
       - schema:
           type: integer
           format: int64
-        name: id
+        name: product-id
         in: path
         required: true
-        description: Product Id
+        description: Product ID
     get:
       summary: Get Product Info by Product ID
       responses:
@@ -64,9 +64,88 @@ paths:
       operationId: getProductById
       description: Retrieve the information of the Product with the matching Product ID.
       x-stoplight:
-        id: xzs4qwrethw6f
+        id: fsf6vdu4rkftu
       parameters: []
-  /api/addProduct:
+    patch:
+      summary: Update Product Information
+      tags: []
+      responses:
+        '200':
+          description: Product information Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        '405':
+          description: Method Not Allowed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+      operationId: updateProduct
+      x-stoplight:
+        id: vl9w6c17w6t5j
+      description: Update the information of an existing product.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+              description: Update Product Info
+    delete:
+      summary: Delete a Product
+      tags: []
+      responses:
+        '200':
+          description: Product Deleted Successfully
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                Example 1:
+                  value: Product Deleted Successfully
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+      operationId: deleteProduct
+      x-stoplight:
+        id: mjeljrxnouioa
+      description: "To delete an existing product.\r\n"
+  /api/product:
     post:
       summary: Add a new Product
       operationId: createProduct
@@ -130,66 +209,10 @@ paths:
         description: ''
       description: creates a new Product
       x-stoplight:
-        id: w6j1l0opwd2fd
+        id: a15mnbzls9umg
       parameters: []
     parameters: []
-  '/api/deleteProduct/{id}':
-    parameters:
-      - schema:
-          type: integer
-          format: int64
-        name: id
-        in: path
-        required: true
-        description: Product Id
-    delete:
-      summary: Delete a Product
-      operationId: deleteProduct
-      responses:
-        '200':
-          description: Product Deleted Successfully
-          content:
-            application/json:
-              schema:
-                type: string
-              examples:
-                Example 1:
-                  value: Product Deleted Successfully
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericResponse'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericResponse'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericResponse'
-        '405':
-          description: Method Not Allowed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericResponse'
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericResponse'
-      x-stoplight:
-        id: fhgji6bj7a8at
-      description: "To delete an existing product.\r\n"
-      parameters: []
-  /api/getAllProducts:
+  /api/products:
     get:
       summary: Get all products
       tags:
@@ -247,33 +270,33 @@ paths:
                 $ref: '#/components/schemas/GenericResponse'
       operationId: getAllProducts
       x-stoplight:
-        id: oe58uc896l1xv
+        id: h2y1vduk2r3ae
       parameters: []
       description: Retrive all products
     parameters: []
-  '/api/updateProduct/{id}':
+  '/api/product/{product-id}/applyModification':
     parameters:
       - schema:
           type: integer
           format: int64
-        name: id
+        name: product-id
         in: path
         required: true
-        description: Product Id
-    patch:
-      summary: Update Product Information
-      tags: []
+        description: Product ID
+    post:
+      summary: Apply Discount or deduct tax
+      operationId: post-api-product-product-id-applyModification
       responses:
         '200':
-          description: Product information Updated
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Product'
+                $ref: '#/components/schemas/ProductResponse'
         '400':
           description: Bad Request
           content:
-            application/json:
+            application/xml:
               schema:
                 $ref: '#/components/schemas/GenericResponse'
         '401':
@@ -294,149 +317,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GenericResponse'
-      operationId: updateProduct
       x-stoplight:
-        id: iq1auq48th47n
-      description: Update the information of an existing product.
-      parameters: []
+        id: dfrsxnvgmbxyy
+      description: Appy Discount or deduct tax
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Product'
+              type: object
               x-examples:
                 Example 1:
-                  quantityAvailable: 80
-              description: Updated Product Info
-            examples:
-              Update Product Name:
-                value:
-                  name: Wings Of Fire
-              Update Price:
-                value:
-                  price: 400
-              Update Quantity:
-                value:
-                  quantityAvailable: 80
-              Update Description:
-                value:
-                  description: Non-Fiction
-  '/api/applyDiscount/{id}':
-    patch:
-      summary: Apply Discount
-      operationId: applyDiscount
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Product'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericResponse'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericResponse'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericResponse'
-        '405':
-          description: Method Not Allowed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericResponse'
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericResponse'
-      x-stoplight:
-        id: 82o4e63v5r44m
-      description: Apply Discount to promote sales
-      parameters:
-        - schema:
-            type: number
-            format: double
-          in: header
-          name: DiscountPercentage
-    parameters:
-      - schema:
-          type: integer
-          format: int64
-        name: id
-        in: path
-        required: true
-        description: Product Id
-  '/api/applyTax/{id}':
-    parameters:
-      - schema:
-          type: integer
-          format: int64
-        name: id
-        in: path
-        required: true
-        description: Product Id
-    patch:
-      summary: Apply Tax
-      operationId: applyTax
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Product'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericResponse'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericResponse'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericResponse'
-        '405':
-          description: Method Not Allowed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericResponse'
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericResponse'
-      x-stoplight:
-        id: weevr70c8fyum
-      description: Apply tax for regulatory compliance
-      parameters:
-        - schema:
-            type: number
-            format: double
-          in: header
-          name: TaxRate
+                  modificationType: discount
+                  modificationValue: 10
+              properties:
+                modificationType:
+                  type: string
+                modificationValue:
+                  type: number
+                  format: double
 components:
   schemas:
     GenericResponse:
@@ -482,4 +380,21 @@ components:
           type: integer
           description: Available quantity of the product
           minimum: 0
+    ProductResponse:
+      type: object
+      x-examples:
+        Example 1:
+          product:
+            productId: 1
+            name: Feedom of India
+            description: fiction
+            price: 220
+            quantityAvailable: 25
+          modifiedPrice: 198
+      properties:
+        product:
+          $ref: '#/components/schemas/Product'
+        modifiedPrice:
+          type: number
+          format: double
   securitySchemes: {}

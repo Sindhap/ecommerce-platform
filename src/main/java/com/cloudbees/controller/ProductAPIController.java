@@ -6,9 +6,11 @@ import javax.annotation.Generated;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-24T00:08:19.694326500+05:30[Asia/Calcutta]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-25T10:40:44.336476700+05:30[Asia/Calcutta]")
 @Controller
+@RequestMapping("${openapi.product.base-path:}")
 public class ProductAPIController implements ProductAPI {
 
     private final ProductAPIDelegate delegate;

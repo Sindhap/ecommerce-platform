@@ -21,7 +21,10 @@ import com.cloudbees.exception.BadRequestException;
 import com.cloudbees.exception.NotFoundException;
 import com.cloudbees.exception.ProductSavingException;
 import com.cloudbees.model.Product;
+import com.cloudbees.model.ProductModificationRequest;
+import com.cloudbees.model.ProductResponse;
 import com.cloudbees.repository.ProductRepository;
+import com.cloudbees.util.Constants;
 
 @ExtendWith(MockitoExtension.class)
 class ProductServiceTest {
@@ -203,51 +206,48 @@ class ProductServiceTest {
 	}
 
 	@Test
-	void testApplyDiscount() {
-
+	void testapplyModification() {
 		productService = new ProductService(productRepository);
 		Product product = new Product();
-		product.setProductId(25L);
-		product.setName("The Malgudi Days");
+		product.setProductId(12L);
+		product.setName("The Adventure");
 		product.setDescription("Fiction");
 		product.setPrice(100.0);
 		product.setQuantityAvailable(50);
 
-		when(productRepository.findById(product.getProductId())).thenReturn(Optional.of(product));
-		ResponseEntity<Product> responseEntity = productService.applyDiscount(product.getProductId(), 50D);
+		Long productId = 1L;
+		ProductModificationRequest request = new ProductModificationRequest();
+		request.setModificationType(Constants.DISCOUNT);
+		request.setModificationValue(10.0);
+		when(productRepository.findById(productId)).thenReturn(Optional.of(product));
+		ResponseEntity<ProductResponse> responseEntity = productService.applyModification(productId, request);
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+		assertEquals(90.0, responseEntity.getBody().getModifiedPrice());
 
-		assertEquals(50D, product.getPrice());
-
-		when(productRepository.findById(product.getProductId())).thenReturn(Optional.empty());
-		responseEntity = productService.applyDiscount(product.getProductId(), 20D);
-		assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
-
-		assertThrows(BadRequestException.class, () -> productService.applyDiscount(product.getProductId(), null));
-
-	}
-
-	@Test
-	void testApplyTax() {
-
-		productService = new ProductService(productRepository);
-		Product product = new Product();
-		product.setProductId(25L);
-		product.setName("Ignited Minds");
-		product.setDescription("Non-Fiction");
-		product.setPrice(120.0);
-		product.setQuantityAvailable(20);
-
-		when(productRepository.findById(product.getProductId())).thenReturn(Optional.of(product));
-		ResponseEntity<Product> responseEntity = productService.applyTax(product.getProductId(), 20D);
+		request.setModificationType(Constants.TAX);
+		request.setModificationValue(20.0);
+		when(productRepository.findById(productId)).thenReturn(Optional.of(product));
+		responseEntity = productService.applyModification(productId, request);
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-		assertEquals(144D, product.getPrice());
-
-		when(productRepository.findById(product.getProductId())).thenReturn(Optional.empty());
-		responseEntity = productService.applyTax(product.getProductId(), 20D);
+		assertEquals(120.0, responseEntity.getBody().getModifiedPrice());
+		
+		request.setModificationType("account");
+		request.setModificationValue(20.0);
+		when(productRepository.findById(productId)).thenReturn(Optional.of(product));
+		responseEntity = productService.applyModification(productId, request);
+		assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+		
+		when(productRepository.findById(productId)).thenReturn(Optional.empty());
+		responseEntity = productService.applyModification(productId, request);
 		assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+		
+		request.setModificationType(null);
+		request.setModificationValue(null);
+		responseEntity = productService.applyModification(productId, request);
+		assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
 
-		assertThrows(BadRequestException.class, () -> productService.applyTax(product.getProductId(), null));
+
+		
 
 	}
 

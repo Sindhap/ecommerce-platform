@@ -13,5 +13,7 @@ public class Constants {
 	public static final String INTERNAL_SERVER_ERROR = "500";
 	public static final String PRODUCT_NOT_EXIST = "Product does not exist for this id : {}";
 	public static final String PRODUCT_NOT_FOUND = "Product not found for ProductID ";
+	public static final String DISCOUNT = "discount";
+	public static final String TAX = "tax";
 
 }

@@ -1,13 +1,16 @@
 package com.cloudbees.service;
 
 import static com.cloudbees.util.CommonFunctions.printAsJson;
+
 import java.util.List;
 import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
 import com.cloudbees.controller.ProductAPIDelegate;
 import com.cloudbees.exception.BadRequestException;
 import com.cloudbees.exception.InternalServerErrorException;
@@ -15,8 +18,11 @@ import com.cloudbees.exception.NotFoundException;
 import com.cloudbees.exception.ProductDeletionException;
 import com.cloudbees.exception.ProductSavingException;
 import com.cloudbees.model.Product;
+import com.cloudbees.model.ProductModificationRequest;
+import com.cloudbees.model.ProductResponse;
 import com.cloudbees.repository.ProductRepository;
 import com.cloudbees.util.Constants;
+
 import io.micrometer.common.util.StringUtils;
 
 @Service
@@ -173,75 +179,6 @@ public class ProductService implements ProductAPIDelegate {
 		return ResponseEntity.ok("Successfully Deleted Product with ID : " + id);
 	}
 
-	@Override
-	public ResponseEntity<Product> applyDiscount(Long id, Double discountPercentage) {
-
-		Product product = null;
-		try {
-
-			if (discountPercentage == null) {
-				throw new BadRequestException("discountPercentage cannot be null");
-			}
-			Optional<Product> productDetails = productRepository.findById(id);
-			if (productDetails.isPresent()) {
-				product = productDetails.get();
-				double originalPrice = product.getPrice();
-				double discountedPrice = originalPrice * (1 - discountPercentage / 100);
-				product.setPrice(discountedPrice);
-				log.info("Applied Discount successfully : {}", printAsJson(product));
-			} else {
-
-				log.info(Constants.PRODUCT_NOT_EXIST, id);
-				return ResponseEntity.notFound().build();
-
-			}
-		} catch (BadRequestException e) {
-
-			throw new BadRequestException(e.getMessage());
-		} catch (Exception e) {
-
-			log.error("Exception Occured while applying discount to Product: {}", e.getLocalizedMessage());
-			throw new InternalServerErrorException(
-					"Exception Occured while applying discount to Product: " + e.getMessage());
-		}
-		return ResponseEntity.ok(productRepository.save(product));
-	}
-
-	@Override
-	public ResponseEntity<Product> applyTax(Long id, Double taxRate) {
-
-		Product product = null;
-		try {
-			if (taxRate == null) {
-				throw new BadRequestException("taxRate cannot be null");
-			}
-			Optional<Product> productDetails = productRepository.findById(id);
-			if (productDetails.isPresent()) {
-				product = productDetails.get();
-				double originalPrice = product.getPrice();
-				double taxedPrice = originalPrice * (1 + taxRate / 100);
-				product.setPrice(taxedPrice);
-				productRepository.save(product);
-				log.info("Applied Tax successfully : {}", printAsJson(product));
-
-			} else {
-				log.info(Constants.PRODUCT_NOT_EXIST, id);
-				return ResponseEntity.notFound().build();
-
-			}
-		} catch (BadRequestException e) {
-
-			throw new BadRequestException(e.getMessage());
-		} catch (Exception e) {
-
-			log.error("Exception Occured while applying tax to Product:  {}", e.getLocalizedMessage());
-			throw new InternalServerErrorException(
-					"Exception Occured while applying tax to Product: " + e.getMessage());
-		}
-		return ResponseEntity.ok(productRepository.save(product));
-
-	}
-
 	private void validateProductRequest(Product product) {
 
 		if (null == product.getQuantityAvailable() || product.getQuantityAvailable() < 0) {
@@ -254,4 +191,45 @@ public class ProductService implements ProductAPIDelegate {
 			throw new BadRequestException("Price value should not be null");
 		}
 	}
+
+	@Override
+	public ResponseEntity<ProductResponse> applyModification(Long id, ProductModificationRequest request) {
+		ProductResponse response = new ProductResponse();
+		try {
+			if (request.getModificationType() == null || request.getModificationValue() == null) {
+				throw new BadRequestException("Modification type and value cannot be null");
+			}
+
+			Optional<Product> productDetails = productRepository.findById(id);
+
+			if (productDetails.isPresent()) {
+				Product product = productDetails.get();
+				response.setProduct(product);
+				if (Constants.DISCOUNT.equalsIgnoreCase(request.getModificationType())) {
+
+					response.setModifiedPrice(product.getPrice() * (1 - request.getModificationValue() / 100));
+					log.info("Applied Discount successfully : {}", printAsJson(response));
+				} else if (Constants.TAX.equalsIgnoreCase(request.getModificationType())) {
+
+					response.setModifiedPrice(product.getPrice() * (1 + request.getModificationValue() / 100));
+					log.info("Applied Tax successfully : {}", printAsJson(response));
+				} else {
+					throw new BadRequestException("Invalid modification type. Use 'discount' or 'tax'.");
+				}
+
+				productRepository.save(product);
+				return ResponseEntity.ok(response);
+			} else {
+				log.info(Constants.PRODUCT_NOT_EXIST, id);
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+			}
+		} catch (BadRequestException e) {
+			return ResponseEntity.badRequest().body(response);
+		} catch (Exception e) {
+			log.error("Exception Occurred while applying modification to Product: {}", e.getLocalizedMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		}
+
+	}
+
 }
