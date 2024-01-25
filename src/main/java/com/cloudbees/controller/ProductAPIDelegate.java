@@ -53,7 +53,7 @@ public interface ProductAPIDelegate {
     }
 
     /**
-     * DELETE /api/product/{product-id} : Delete a Product
+     * DELETE /api/products/{product-id} : Delete a Product
      * To delete an existing product.  
      *
      * @param productId Product ID (required)
@@ -95,7 +95,7 @@ public interface ProductAPIDelegate {
     }
 
     /**
-     * GET /api/product/{product-id} : Get Product Info by Product ID
+     * GET /api/products/{product-id} : Get Product Info by Product ID
      * Retrieve the information of the Product with the matching Product ID.
      *
      * @param productId Product ID (required)
@@ -122,7 +122,7 @@ public interface ProductAPIDelegate {
     }
 
     /**
-     * POST /api/product/{product-id}/applyModification : Apply Discount or deduct tax
+     * POST /api/products/{product-id}/applyModification : Apply Discount or deduct tax
      * Appy Discount or deduct tax
      *
      * @param productId Product ID (required)
@@ -155,7 +155,7 @@ public interface ProductAPIDelegate {
     }
 
     /**
-     * PATCH /api/product/{product-id} : Update Product Information
+     * PATCH /api/products/{product-id} : Update Product Information
      * Update the information of an existing product.
      *
      * @param productId Product ID (required)
